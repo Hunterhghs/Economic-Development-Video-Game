@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lagos Economic Development Simulator</title>
+    <meta name="description" content="A city economic development simulation game set in Lagos, Nigeria. Build infrastructure, set policies, and grow Africa's largest megacity.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ============ INTRO / TITLE SCREEN ============ -->
+    <div id="intro-screen" class="intro-screen">
+        <div class="intro-particles" id="intro-particles"></div>
+        <div class="intro-content">
+            <div class="intro-badge">CITY SIMULATION</div>
+            <h1 class="intro-title">
+                <span class="title-lagos">LAGOS</span>
+                <span class="title-sub">Economic Development</span>
+                <span class="title-sim">SIMULATOR</span>
+            </h1>
+            <p class="intro-desc">Step into the role of Lagos's Economic Development Director. Make strategic investments, enact transformative policies, and navigate crises to build Africa's most prosperous megacity.</p>
+            <div class="intro-stats">
+                <div class="intro-stat">
+                    <span class="intro-stat-value">6</span>
+                    <span class="intro-stat-label">Districts</span>
+                </div>
+                <div class="intro-stat">
+                    <span class="intro-stat-value">30</span>
+                    <span class="intro-stat-label">Years</span>
+                </div>
+                <div class="intro-stat">
+                    <span class="intro-stat-value">10</span>
+                    <span class="intro-stat-label">Sectors</span>
+                </div>
+                <div class="intro-stat">
+                    <span class="intro-stat-value">20+</span>
+                    <span class="intro-stat-label">Events</span>
+                </div>
+            </div>
+            <button id="btn-start-game" class="btn-primary btn-glow">
+                <span>Start New Game</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <button id="btn-load-game" class="btn-secondary" style="display:none;">
+                <span>Continue Saved Game</span>
+            </button>
+        </div>
+        <div class="intro-skyline"></div>
+    </div>
+
+    <!-- ============ TUTORIAL OVERLAY ============ -->
+    <div id="tutorial-overlay" class="tutorial-overlay hidden">
+        <div class="tutorial-card">
+            <div class="tutorial-step-indicator" id="tutorial-step-indicator"></div>
+            <h2 id="tutorial-title"></h2>
+            <p id="tutorial-text"></p>
+            <div class="tutorial-actions">
+                <button id="btn-tutorial-skip" class="btn-secondary btn-sm">Skip Tutorial</button>
+                <button id="btn-tutorial-next" class="btn-primary btn-sm">Next →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ MAIN GAME CONTAINER ============ -->
+    <div id="game-container" class="game-container hidden">
+
+        <!-- TOP BAR -->
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <div class="logo-mark">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+                </div>
+                <div class="top-bar-title">
+                    <span class="title-city">Lagos</span>
+                    <span class="title-role">Economic Dev. Director</span>
+                </div>
+            </div>
+            <div class="top-bar-center">
+                <div class="year-display">
+                    <span class="year-label">Year</span>
+                    <span class="year-value" id="hud-year">2025</span>
+                </div>
+                <div class="budget-display">
+                    <span class="budget-label">Budget</span>
+                    <span class="budget-value" id="hud-budget">₦0B</span>
+                </div>
+                <div class="score-display">
+                    <span class="score-label">Score</span>
+                    <span class="score-value" id="hud-score">0</span>
+                </div>
+            </div>
+            <div class="top-bar-right">
+                <div class="alert-badge" id="alert-badge" style="display:none;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <span id="alert-count">0</span>
+                </div>
+                <button id="btn-settings" class="icon-btn" title="Settings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <div class="main-content">
+
+            <!-- LEFT: MAP PANEL -->
+            <div class="map-panel">
+                <div class="map-header">
+                    <h2>Lagos Metropolitan Area</h2>
+                    <div class="map-controls">
+                        <button class="map-btn active" data-view="development" title="Development View">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                        </button>
+                        <button class="map-btn" data-view="economy" title="Economy View">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+                        </button>
+                        <button class="map-btn" data-view="population" title="Population View">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="map-container" id="map-container">
+                    <svg id="lagos-map" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg"></svg>
+                </div>
+                <div class="map-legend" id="map-legend">
+                    <span class="legend-title">Development Level</span>
+                    <div class="legend-scale">
+                        <span class="legend-low">Low</span>
+                        <div class="legend-gradient"></div>
+                        <span class="legend-high">High</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: DASHBOARD PANEL -->
+            <div class="dashboard-panel">
+                <div class="dashboard-tabs">
+                    <button class="tab-btn active" data-tab="overview">Overview</button>
+                    <button class="tab-btn" data-tab="sectors">Sectors</button>
+                    <button class="tab-btn" data-tab="districts">Districts</button>
+                </div>
+
+                <!-- Overview Tab -->
+                <div class="tab-content active" id="tab-overview">
+                    <div class="kpi-grid" id="kpi-grid"></div>
+                    <div class="chart-section">
+                        <h3>GDP Growth Trend</h3>
+                        <canvas id="gdp-chart" width="400" height="150"></canvas>
+                    </div>
+                    <div class="chart-section">
+                        <h3>Sector Distribution</h3>
+                        <canvas id="sector-chart" width="400" height="150"></canvas>
+                    </div>
+                </div>
+
+                <!-- Sectors Tab -->
+                <div class="tab-content" id="tab-sectors">
+                    <div class="sector-list" id="sector-list"></div>
+                </div>
+
+                <!-- Districts Tab -->
+                <div class="tab-content" id="tab-districts">
+                    <div class="district-list" id="district-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTTOM TIMELINE BAR -->
+        <div class="timeline-bar">
+            <div class="timeline-controls">
+                <button id="btn-prev-turn" class="timeline-btn" title="Previous Year">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <button id="btn-next-turn" class="timeline-btn btn-advance" title="Advance Year">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                    <span>Advance Year</span>
+                </button>
+            </div>
+            <div class="timeline-track">
+                <input type="range" id="timeline-slider" min="2025" max="2055" value="2025" step="1" disabled>
+                <div class="timeline-labels">
+                    <span>2025</span>
+                    <span>2035</span>
+                    <span>2045</span>
+                    <span>2055</span>
+                </div>
+            </div>
+            <div class="timeline-info">
+                <span class="turn-label">Turn <span id="turn-number">1</span>/30</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ EVENT MODAL ============ -->
+    <div id="event-modal" class="modal-overlay hidden">
+        <div class="modal-card event-card">
+            <div class="event-icon" id="event-icon">⚡</div>
+            <div class="event-tag" id="event-tag">EVENT</div>
+            <h2 id="event-title">Event Title</h2>
+            <p id="event-description">Event description goes here.</p>
+            <div class="event-effects" id="event-effects"></div>
+            <div class="event-choices" id="event-choices"></div>
+        </div>
+    </div>
+
+    <!-- ============ POLICY MODAL ============ -->
+    <div id="policy-modal" class="modal-overlay hidden">
+        <div class="modal-card policy-card">
+            <div class="modal-header">
+                <h2>Policy & Investment Decisions</h2>
+                <button id="btn-close-policy" class="icon-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="policy-budget-bar">
+                <span>Remaining Budget: </span>
+                <span id="policy-budget-remaining" class="budget-highlight">₦0B</span>
+            </div>
+            <div class="policy-categories" id="policy-categories"></div>
+            <div class="policy-list" id="policy-list"></div>
+            <div class="modal-footer">
+                <button id="btn-confirm-policies" class="btn-primary">Confirm Decisions</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ DISTRICT DETAIL MODAL ============ -->
+    <div id="district-modal" class="modal-overlay hidden">
+        <div class="modal-card district-detail-card">
+            <div class="modal-header">
+                <h2 id="district-detail-name">District Name</h2>
+                <button id="btn-close-district" class="icon-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="district-detail-content" id="district-detail-content"></div>
+        </div>
+    </div>
+
+    <!-- ============ GAME OVER SCREEN ============ -->
+    <div id="gameover-screen" class="modal-overlay hidden">
+        <div class="modal-card gameover-card">
+            <div class="gameover-icon">🏆</div>
+            <h1>Simulation Complete</h1>
+            <p class="gameover-subtitle">Lagos 2025–2055: Your Legacy</p>
+            <div class="gameover-stats" id="gameover-stats"></div>
+            <div class="gameover-grade">
+                <span class="grade-label">Overall Grade</span>
+                <span class="grade-value" id="gameover-grade">A</span>
+            </div>
+            <div class="gameover-actions">
+                <button id="btn-play-again" class="btn-primary btn-glow">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ NOTIFICATION TOAST ============ -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- SCRIPTS -->
+    <script src="js/engine.js"></script>
+    <script src="js/districts.js"></script>
+    <script src="js/policies.js"></script>
+    <script src="js/events.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
