@@ -94,6 +94,35 @@ const Policies = (() => {
         P('megacity_integration', 'Megalopolis Integration', 'Seamless economic integration of Lagos, Ogun, and Oyo states.', 'infrastructure', 60, { sectors: { infrastructure: 50, housing: 40, trade: 30 }, modifiers: { gdpGrowth: 0.1, populationGrowth: 0.03, satisfactionBonus: 30 } }, 30)
     ];
 
+    // Procedurally generate continuous maintenance/upgrade policies for each turn (1-30)
+    // This ensures there are always ~10 new upgrade options unlocked every single turn
+    const recurringData = [
+        { cat: 'infrastructure', sec: 'infrastructure', name: 'Infrastructure' },
+        { cat: 'education', sec: 'education', name: 'Education' },
+        { cat: 'technology', sec: 'technology', name: 'Technology' },
+        { cat: 'trade', sec: 'trade', name: 'Trade' },
+        { cat: 'health', sec: 'healthcare', name: 'Healthcare' },
+        { cat: 'energy', sec: 'energy', name: 'Energy' },
+        { cat: 'housing', sec: 'housing', name: 'Housing' },
+        { cat: 'security', sec: 'security', name: 'Security' },
+        { cat: 'tourism', sec: 'tourism', name: 'Tourism' }
+    ];
+
+    for (let t = 1; t <= 30; t++) {
+        recurringData.forEach(d => {
+            const cost = 1.5 + (t * 0.5);
+            ALL_POLICIES.push(P(
+                `continuous_${d.cat}_t${t}`,
+                `${d.name} Expansion Phase ${t}`,
+                `Ongoing continuous development for ${d.name} in Year ${2024 + t}.`,
+                d.cat,
+                Math.round(cost * 10) / 10,
+                { sectors: { [d.sec]: 2 }, modifiers: { gdpGrowth: 0.001, satisfactionBonus: 1 } },
+                t
+            ));
+        });
+    }
+
     function getCategories() { return CATEGORIES; }
     function getAvailable(turn, activePolicies) {
         return ALL_POLICIES.filter(p => p.unlockTurn <= turn && !activePolicies.includes(p.id));
