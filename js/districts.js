@@ -260,7 +260,7 @@ const Districts = (() => {
                 const econ = GameEngine.getDistrictEconomy(d.id);
                 devText.textContent = econ ? `${econ.population}M` : '';
             } else {
-                devText.textContent = `Lv ${d.devLevel}`;
+                devText.textContent = `Lv ${Math.round(d.devLevel)}`;
             }
             distGroup.appendChild(devText);
 

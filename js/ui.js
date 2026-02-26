@@ -264,7 +264,7 @@ const UI = (() => {
                         <div class="district-stat-label">GDP</div>
                     </div>
                     <div class="district-stat">
-                        <div class="district-stat-value">Lv${d.devLevel}</div>
+                        <div class="district-stat-value">Lv${Math.round(d.devLevel)}</div>
                         <div class="district-stat-label">Dev</div>
                     </div>
                 </div>
@@ -298,7 +298,7 @@ const UI = (() => {
                 <div class="detail-stat"><div class="detail-stat-value">$${econ ? econ.gdp : '—'}B</div><div class="detail-stat-label">District GDP</div></div>
                 <div class="detail-stat"><div class="detail-stat-value">${econ ? econ.population : '—'}M</div><div class="detail-stat-label">Population</div></div>
                 <div class="detail-stat"><div class="detail-stat-value">${econ ? econ.employment.toFixed(0) : '—'}%</div><div class="detail-stat-label">Employment</div></div>
-                <div class="detail-stat"><div class="detail-stat-value">${d.devLevel}</div><div class="detail-stat-label">Dev Level</div></div>
+                <div class="detail-stat"><div class="detail-stat-value">${Math.round(d.devLevel)}</div><div class="detail-stat-label">Dev Level</div></div>
                 <div class="detail-stat"><div class="detail-stat-value">${econ ? econ.infrastructure.toFixed(0) : '—'}</div><div class="detail-stat-label">Infra Score</div></div>
                 <div class="detail-stat"><div class="detail-stat-value">${(d.gdpShare * 100).toFixed(0)}%</div><div class="detail-stat-label">GDP Share</div></div>
             </div>
