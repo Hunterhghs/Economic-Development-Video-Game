@@ -46,7 +46,23 @@ const Policies = (() => {
         P('emergency_response', 'Emergency Response Center', 'Centralized emergency command center.', 'security', 3, { sectors: { security: 12, infrastructure: 3 }, modifiers: { satisfactionBonus: 5, infraBonus: 2 } }, 4),
         P('tourism_board', 'Lagos Tourism Board', 'Tourism promotion agency & cultural destination.', 'tourism', 1.5, { sectors: { tourism: 10 }, modifiers: { gdpGrowth: 0.004, fdiMultiplier: 1.05 } }, 1),
         P('waterfront', 'Waterfront Promenade', '10km lagoon promenade with restaurants & parks.', 'tourism', 3, { sectors: { tourism: 15, housing: 3 }, modifiers: { satisfactionBonus: 7, gdpGrowth: 0.005 } }, 3),
-        P('cultural_center', 'Lagos Cultural Arts Center', 'World-class performing arts center on Lagos Island.', 'tourism', 4, { sectors: { tourism: 18, education: 3 }, modifiers: { satisfactionBonus: 6, fdiMultiplier: 1.08 } }, 5)
+        P('cultural_center', 'Lagos Cultural Arts Center', 'World-class performing arts center on Lagos Island.', 'tourism', 4, { sectors: { tourism: 18, education: 3 }, modifiers: { satisfactionBonus: 6, fdiMultiplier: 1.08 } }, 5),
+
+        // Late Game Upgrades (Turns 10+)
+        P('hyperloop', 'Lagos-Abuja Hyperloop', 'High-speed transit connecting major Nigerian hubs.', 'infrastructure', 15, { sectors: { infrastructure: 25, technology: 15 }, modifiers: { gdpGrowth: 0.03, satisfactionBonus: 10, fdiMultiplier: 1.15 } }, 10),
+        P('ai_university', 'Pan-African AI Institute', 'Premier AI research center attracting global talent.', 'education', 10, { sectors: { education: 20, technology: 25 }, modifiers: { gdpGrowth: 0.02, fdiMultiplier: 1.2 } }, 10),
+        P('quantum_network', 'Quantum Comm Network', 'Unhackable data grid for finance and government.', 'technology', 12, { sectors: { technology: 30, security: 15 }, modifiers: { fdiMultiplier: 1.3, infraBonus: 5 } }, 12),
+        P('deep_sea_port', 'Badagry Deep Sea Port', 'Next-gen automated port for mega-ships.', 'trade', 14, { sectors: { trade: 25, infrastructure: 10 }, modifiers: { gdpGrowth: 0.025, fdiMultiplier: 1.25 } }, 10),
+        P('eco_hospital', 'Green Medical City', 'Zero-emission advanced healthcare district.', 'health', 12, { sectors: { healthcare: 25, energy: 10 }, modifiers: { satisfactionBonus: 12, populationGrowth: 0.005 } }, 11),
+        P('fusion_reactor', 'Offshore Fusion Reactor', 'Unlimited clean energy for the metropolis.', 'energy', 25, { sectors: { energy: 40, technology: 15 }, modifiers: { gdpGrowth: 0.04, infraBonus: 15, satisfactionBonus: 20 } }, 15),
+        P('vertical_farming', 'Mega Vertical Farms', 'Automated skyscrapers producing local food.', 'housing', 8, { sectors: { housing: 15, technology: 10 }, modifiers: { satisfactionBonus: 10, populationGrowth: 0.01 } }, 10),
+        P('drone_patrol', 'Autonomous Drone Patrols', 'AI drones reducing emergency response to 2 mins.', 'security', 9, { sectors: { security: 20, technology: 15 }, modifiers: { satisfactionBonus: 8, fdiMultiplier: 1.1 } }, 10),
+        P('space_port', 'Lagos Equatorial Spaceport', 'Commercial orbital launch facility in Epe.', 'tourism', 20, { sectors: { tourism: 30, technology: 20 }, modifiers: { gdpGrowth: 0.035, fdiMultiplier: 1.4 } }, 18),
+
+        // Final Tier (Turns 20+)
+        P('arcology', 'Lekki Arcology', 'Self-sustaining massive megastructure housing 1M.', 'housing', 35, { sectors: { housing: 30, infrastructure: 20, energy: 15 }, modifiers: { gdpGrowth: 0.05, satisfactionBonus: 25, populationGrowth: 0.02 } }, 20),
+        P('carbon_capture', 'Atmospheric Scrubbing', 'City-wide nanotech air purification system.', 'health', 18, { sectors: { healthcare: 20, technology: 15 }, modifiers: { satisfactionBonus: 15, populationGrowth: 0.01 } }, 20),
+        P('ocean_reclamation', 'Oceanic Reclamation', 'Create massive new landmasses off the coast.', 'infrastructure', 40, { sectors: { infrastructure: 35, trade: 20 }, modifiers: { gdpGrowth: 0.06, fdiMultiplier: 1.5, infraBonus: 20 } }, 22)
     ];
 
     function getCategories() { return CATEGORIES; }
